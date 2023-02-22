@@ -12,23 +12,21 @@ def hello_world():  # put application's code here
     return 'Hello World!'
 
 
-@app.route('/singleSequence', methods=['POST'])
+@app.route('/singleSequence', methods=['GET'])
 def singleSequence():
     return 'Hello World!'
 
 
-@app.route('/multipleSequence', methods=['POST'])
+@app.route('/multipleSequence', methods=['GET'])
 def multipleSequence():
     if request.method != 'POST':
         return "Not Allowed", 405
     return 'Hello World!'
 
 
-@app.route('/singleSequence/<string:sequence>', methods=['GET'])
-def singleSequence(sequence):
-    return sequence
-
-
+# @app.route('/singleSequence/<string:sequence>', methods=['GET'])
+# def singleSequence(sequence):
+#     return sequence
 
 
 @app.errorhandler(404)
