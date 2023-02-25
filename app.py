@@ -4,6 +4,8 @@ from helper import Predictor
 
 app = Flask(__name__)
 
+app.FLASK_DEBUG = 1
+
 
 @app.route('/')
 def index():
@@ -21,7 +23,7 @@ def results():
     pred = Predictor()
     seq = "MGSVRKASAWLGLVDDNDDERYYDDDYAEGQESGEAWVTDPRVKVASETAEEKGRRIGTVTPDSFRDARGIGELFRDGVPVIINLTAMEPTDAKRVVDFAAGLTFGLRGTIERVATRVFLLTPANTEIVSGEAAGRPTDGFFNQS"
     clf = pred.RFInit()
-    data = clf.predict(pred.LSTMPredict(sequences))
+    data = clf.predict(pred.LSTMPredict(sequences.upper()))
     return render_template('results.html', sequences=data[0])
 
 

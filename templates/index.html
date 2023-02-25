@@ -7,24 +7,27 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 </head>
-<body>
+<body class="bg-dark">
 
 
-<nav class=" navbar navbar-dark bg-blue">
-    <div class="container-fluid text-center">
-        <a class="navbar-brand text-primary" href="#">Solubility of Proteins</a>
+<nav class=" navbar navbar-dark ">
+    <div class="container-fluid justify-content-center">
+        <a class="navbar-brand fs-2 text-primary" href="{{ url_for('/') }}">Solubility of Proteins</a>
     </div>
 </nav>
+<hr class="hr " style="color: #ffffff"/>
 <div class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <div class="card my-5">
-                <div class="card-body">
+            <div class="card my-5 shadow-lg p-3 mb-5 bg-body rounded">
+                <div class="card-body  ">
                     <h3 class="card-title text-center mb-4">Protein Sequence Analysis</h3>
                     <form action="{{ url_for('/results') }}" method="post">
+
                         <div class="mb-3">
-                            <label for="sequence" class="form-label">Enter your protein sequence:</label>
-                            <textarea class="form-control" id="sequence" name="sequence" rows="3"
+                            <label for="sequence" class="form-label ">Enter your protein sequence</label>
+                            <textarea class="form-control" placeholder="MGSVRKASAWLGLVDDNDDERYYDDDYAEGQESGEAWVTDPRVKVAS"
+                                      id="sequence" name="sequence" rows="3"
                                       required></textarea>
                         </div>
                         <div class="d-grid gap-2">
@@ -35,7 +38,24 @@
             </div>
         </div>
     </div>
+    {% block content %}
+        {% if sequences != null or sequences == "" %}
+            <div class="row" hidden="true">
+                <form>
+                    <div class="mb-3">
+                        <label for="sequence" class="form-label ">Protein Sequence</label>
+                        <textarea class="form-control" value="{{ sequence }}"
+                                  id="result" name="sequence" rows="auto" disabled></textarea>
+                    </div>
+
+                </form>
+            </div>
+        {% endif %}
+    {% endblock content %}
+
+
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
@@ -43,3 +63,10 @@
 
 </body>
 </html>
+
+<script>
+    // check if the sequence  have value
+    if (document.getElementById("sequence").value != "" || document.getElementById("sequence").value == null) {
+        document.getElementById("result").hidden = false;
+    }
+</script>
