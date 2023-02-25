@@ -1,15 +1,13 @@
-from flask import Flask, request
-import logging
+from flask import Flask, request, render_template
+
+from helper import Predictor
 
 app = Flask(__name__)
 
-logger = logging.getLogger('Verifier')
-logger.setLevel("DEBUG")
-
 
 @app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+def index():
+    return render_template('index.html')
 
 
 @app.route('/singleSequence', methods=['GET'])
@@ -17,11 +15,14 @@ def singleSequence():
     return 'Hello World!'
 
 
-@app.route('/multipleSequence', methods=['GET'])
-def multipleSequence():
-    if request.method != 'POST':
-        return "Not Allowed", 405
-    return 'Hello World!'
+@app.route('/results', methods=['post'])
+def results():
+    sequences = request.form['sequences']
+    pred = Predictor()
+    seq = "MGSVRKASAWLGLVDDNDDERYYDDDYAEGQESGEAWVTDPRVKVASETAEEKGRRIGTVTPDSFRDARGIGELFRDGVPVIINLTAMEPTDAKRVVDFAAGLTFGLRGTIERVATRVFLLTPANTEIVSGEAAGRPTDGFFNQS"
+    clf = pred.RFInit()
+    data = clf.predict(pred.LSTMPredict(sequences))
+    return render_template('results.html', sequences=data[0])
 
 
 # @app.route('/singleSequence/<string:sequence>', methods=['GET'])
@@ -31,8 +32,8 @@ def multipleSequence():
 
 @app.errorhandler(404)
 def not_found():
-    return "Not Found", 404
+    return "Not Found"
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
