@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_from_directory
 
 from helper import Predictor
 
@@ -31,7 +31,9 @@ def results():
 # @app.route('/singleSequence/<string:sequence>', methods=['GET'])
 # def singleSequence(sequence):
 #     return sequence
-
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.errorhandler(404)
 def not_found(error):
