@@ -7,6 +7,11 @@ from helper import Predictor
 app = Flask(__name__)
 
 
+@app.route('/<path:page>')
+def show(page):
+    return render_template('%s.html' % page)
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -33,7 +38,9 @@ def results():
 #     return sequence
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',
+                               mimetype='image/vnd.microsoft.icon')
+
 
 @app.errorhandler(404)
 def not_found(error):
