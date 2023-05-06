@@ -21,16 +21,19 @@ def index():
 def results():
     sequences = request.form['sequence']
     pred = Predictor()
-    seq = "MGSVRKASAWLGLVDDNDDERYYDDDYAEGQESGEAWVTDPRVKVASETAEEKGRRIGTVTPDSFRDARGIGELFRDGVPVIINLTAMEPTDAKRVVDFAAGLTFGLRGTIERVATRVFLLTPANTEIVSGEAAGRPTDGFFNQS"
+    seq = "MGSVRKASAWLGLVDDNDDERYYDDDYAEGQESGEAWVTDPRVKVASETAEEKGRRIGTVTPDSFRDARGIGELFRDGVPVIINLTAMEPTDAKRVVDF" \
+          "AAGLTFGLRGTIERVATRVFLLTPANTEIVSGEAAGRPTDGFFNQS"
     clf = pred.RFInit()
     data = clf.predict(pred.LSTMPredict(sequences.upper()))
     print(data[0])
-    send = ""
+    send = 0
     if data[0] == 1:
-        send = "Protein is Soluble"
+        # send = "Protein is Soluble"
+        send = 1
     else:
-        send = "Protein is Insoluble"
-    return render_template('index.html', sequences=send, input=sequences.upper())
+        # send = "Protein is Insoluble"
+        send = 0
+    return render_template('results.html', prediction=send, name=sequences.upper())
 
 
 # @app.route('/singleSequence/<string:sequence>', methods=['GET'])
@@ -49,4 +52,4 @@ def not_found(error):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(debug=False, host="0.0.0.0", port=port)
+    app.run(debug=True, host="0.0.0.0", port=port)
